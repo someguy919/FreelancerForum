@@ -27,13 +27,35 @@ const names = [
     { name: "Prof. Goose", price: 72, occupation: "driver" },
   ];
 
-
+  let usedFreelancerIndices = new Set();
   
   function randomFreelancer() {
-    const freelancerNum = Math.floor(Math.random() * freelancers.length);
-    return freelancers[freelancerNum];
-  }
-  
+    if (usedFreelancerIndices.size < freelancers.length) {
+        let index;
+        do {
+            index = Math.floor(Math.random() * freelancers.length);
+        } while (usedFreelancerIndices.has(index));
+        usedFreelancerIndices.add(index);
+        return freelancers[index]; 
+    } else {
+       
+        const nameNum = Math.floor(Math.random() * names.length);
+        const randomName = names[nameNum];
+
+   
+        const occupationNum = Math.floor(Math.random() * occupations.length);
+        const randomOccupation = occupations[occupationNum];
+
+      
+        const randomPrice = Math.floor(Math.random() * (100 - 20 + 1)) + 20;
+
+        return {
+            name: randomName,
+            occupation: randomOccupation,
+            price: randomPrice
+        };
+    }
+}
   const selectedFreelancers = [randomFreelancer(), randomFreelancer()];
 
 
@@ -68,9 +90,9 @@ function average(freelancers) {
     const obj = randomFreelancer();
     selectedFreelancers.push(obj);
     render();
-    if (selectedFreelancers.length === 20) {
-      clearInterval(interval);
-    }
+    // if (selectedFreelancers.length === 20) {
+    //   clearInterval(interval);
+    // }
   }, 3000);
   
   render();
